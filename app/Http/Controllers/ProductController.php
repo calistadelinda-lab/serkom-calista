@@ -30,7 +30,12 @@ class ProductController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $data = $request->only(['name', 'description', 'price']);
+        $data = $request->validate(
+            [
+                'name' => ['required', 'string', 'max:100'],
+                'description' => ['required', 'string'],
+                'price' => ['required', 'integer', 'min:0'],
+            ]);
 
         if ($request->hasFile('image')) {
             $imageName = time().'.'.$request->image->extension();
@@ -50,7 +55,12 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product): RedirectResponse
     {
-        $data = $request->only(['name', 'description', 'price']);
+        $data = $request->validate(
+            [
+                'name' => ['required', 'string', 'max:100'],
+                'description' => ['required', 'string'],
+                'price' => ['required', 'integer', 'min:0'],
+        ]);
 
         if ($request->hasFile('image')) {
             $imageName = time().'.'.$request->image->extension();
